@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Clicker</title>
+    <style>
+        body {
+            margin: 0;
+            background-image: url('https://img.freepik.com/fotos-premium/cocina-dibujos-animados-3d_853677-44747.jpg'); /* Sustituye este enlace por la imagen de cocina en 3D */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #ffff00;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            overflow: hidden;
+            text-shadow: 
+                2px 2px 2px #000,   /* Sombra más grande hacia la derecha y abajo */
+                -2px -2px 2px #000, /* Sombra más grande hacia la izquierda y arriba */
+                2px -2px 2px #000,  /* Sombra más grande hacia la derecha y arriba */
+                -2px 2px 2px #000;  /* Sombra más grande hacia la izquierda y abajo */
+        }
+         /* Fondo negro para las otras secciones */
+        #referralSection, #walletSection, #leaderboardSection, #taskSection {
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Asegura que el texto sea blanco */
+            padding: 20px; /* Espaciado interno para mejor presentación */
+        }
+
+        /* Secciones ocultas */
+        #referralSection, #walletSection, #leaderboardSection, #taskSection {
+            display: none;
+        }
+
+        #header {
+            background-color: #0088cc; /* Fondo azul */
+            color: #fff; /* Texto blanco */
+            padding: 10px; /* Espaciado interno */
+            text-align: center; /* Centrar el texto */
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #tokens {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        #circle {
+            width: 250px;
+            height: 250px;
+            background-color: transparent; /* Hacer el círculo invisible */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 50px;
+        }
+
+        #circle img {
+            width: 260px;
+            height: 260px;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        /* Estilo para la imagen temporal */
+        #tempImage {
+            display: none;
+            position: absolute;
+            width: 260px;
+            height: 260px;
+        }
+
+        #content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        #tokensSection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        #referralSection, #walletSection, #leaderboardSection, #taskSection {
+            display: none;
+            text-align: center;
+        }
+
+        #menu {
+            display: flex;
+            justify-content: space-around;
+            background-color: #111;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        .menu-item {
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .menu-item.active {
+            background-color: #333;
+        }
+
+        .menu-item:hover {
+            background-color: #444;
+        }
+
+        /* Icono de copa dorada */
+        #trophyIcon {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: -120px; /* Posición encima de la palabra Inicio */
+            left: calc(80% - 15px); /* Centrado encima de Inicio */
+            cursor: pointer;
+        }
+
+        /* Icono de dinero */
+        #moneyIcon {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: -120px; /* Posición encima de la palabra Inicio */
+            left: calc(10% - 15px); /* Centrado en el lado opuesto del ícono de la copa */
+            cursor: pointer;
+        }
+
+        /* Estilos específicos para la sección de referidos */
+        .referral-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px; /* Más espacio debajo del título */
+        }
+
+        .referral-subtitle {
+            margin-top: 10px; /* Espacio entre el título y el subtítulo */
+        }
+
+        /* Estilos para la tabla de clasificación */
+        #leaderboardSection {
+            text-align: center;
+            color: #fff;
+        }
+
+        #leaderboardTitle {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #222;
+            color: #fff;
+        }
+
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #0088cc;
+        }
+
+        /* Estilos para la sección de tareas */
+        #taskSection {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        #taskSectionTitle {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .task-container {
+            background-color: #444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .task-container:hover {
+            background-color: #555;
+        }
+
+        .task-container p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .task-container span {
+            display: block;
+            font-size: 16px;
+            color: #ffd700;
+            margin-top: 5px;
+        }
+
+/* Estilos para el ícono de ayuda */
+        #helpIcon {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        /* Estilos para la ventana emergente de ayuda */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .modal-content p {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .modal-close {
+            background: #0088cc;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nueva cabecera para "Aidrop Telegram" -->
+    <div id="header">RATATÓN</div>
+
+    <!-- Ícono de ayuda -->
+    <img id="helpIcon" src="https://cdn-icons-png.flaticon.com/512/1827/1827264.png" alt="Ícono de ayuda">
+
+    <!-- Ventana emergente de ayuda -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <p>⚠️ Cuidado!!! Los ratones han invadido tu cocina así que deberás darle tantos golpes como te sea posible.</p>
+            <button class="modal-close">Cerrar</button>
+        </div>
+    </div>
+
+    <div id="content">
+        <!-- Sección de Tokens (Principal) -->
+        <div id="tokensSection">
+            <div id="tokens">Tokens: 0</div>
+            <div id="circle">
+    <img id="mainImage" src="https://i.ibb.co/x1S8rWH/Copia-de-Dise-o-sin-t-tulo-20240904-232442-0000.png" alt="Telegram Logo">
+    <img id="tempImage" src="https://i.ibb.co/FXQpYFP/Copia-de-Dise-o-sin-t-tulo-20240905-170133-0000.png" alt="Imagen Temporal"> <!-- Cambia este enlace por la imagen temporal -->
+</div>
+
+        </div>
+
+        <!-- Sección de Enlace de Referencia -->
+        <div id="referralSection">
+            <div class="referral-title">Invita amigos</div>
+            <div class="referral-subtitle">Tú y tus amigos recibirán bonos por invitar a conocidos.</div>
+            <div class="referral-container">
+                <img src="https://cdn-icons-png.flaticon.com/128/1140/1140033.png" alt="Regalo">
+                <div class="referral-text">Por invitar amigos recibirás <span>5 tokens</span> por cada uno.</div>
+            </div>
+            <div id="referralLinkSection">
+                <p>Copia y comparte tu enlace de referencia:</p>
+                <input type="text" id="referralLink" value="https://tu-aplicacion.com/refer?user=1234" readonly>
+                <button id="copyButton">Copiar enlace</button>
+            </div>
+        </div>
+
+        <!-- Sección de Billetera -->
+        <div id="walletSection">
+            <img src="https://i.ibb.co/6NpbkRQ/Copia-de-Copia-de-Dise-o-sin-t-tulo-20240905-004220-0000.png" alt="Reloj" style="width: 130px; height: 130px; margin: 20px auto;">
+            <p>Proximamente podrás conectar tu billetera electrónica favorita para retirar tus tokens</p>
+        </div>
+
+        <!-- Nueva Sección de Clasificación -->
+        <div id="leaderboardSection">
+            <div id="leaderboardTitle">Tabla de Clasificación #5</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Posición</th>
+                        <th>Usuario</th>
+                        <th>Tokens</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Filas dinámicas para los usuarios -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Nueva Sección de Tareas de Tokens -->
+        <div id="taskSection">
+            <h2 id="taskSectionTitle">💸 Gana más tokens haciendo tareas</h2>
+            
+            <!-- Contenedor de Tarea 1 -->
+             <div class="task-container" onclick="abrirTelegram();">
+                <p>Únete a nuestro canal de Telegram</p>
+                <span>+250 Tokens</span>
+            </div>
+            
+            <!-- Contenedor de Tarea 2 -->
+            <div class="task-container" onclick="window.location.href='https://www.instagram.com/aprendesobrecriptomonedas'; sumarTokens(150);">
+                <p>Síguenos en Instagram</p>
+                <span>+150 Tokens</span>
+            </div>
+            
+            <!-- Contenedor de Tarea 3 -->
+            <div class="task-container" onclick="window.location.href='https://www.youtube.com/@CursoDeCriptomonedas'; sumarTokens(1000);">
+                <p>Síguenos en Youtube</p>
+                <span>+1000 Tokens</span>
+            </div>
+            
+            <!-- Contenedor de Tarea 4 -->
+            <div class="task-container" onclick="window.location.href='https://x.com/publi_oficiai'; sumarTokens(100);">
+                <p>Síguenos en X</p>
+                <span>+100 Tokens</span>
+            </div>
+        </div>
+    </div>
+ <script>
+function abrirTelegram() {
+    window.location.href = 'tg://resolve?domain=AndroidCrypto';
+    sumarTokens(250);
+}
+</script>
+
+    <div id="menu">
+        <img id="trophyIcon" src="https://i.ibb.co/z6Q1Nqg/Copia-de-Copia-de-Dise-o-sin-t-tulo-20240905-012351-0000.png" alt="Copa Dorada">
+        <img id="moneyIcon" src="https://cdn-icons-png.flaticon.com/512/4314/4314231.png" alt="Ícono de Dinero"> <!-- Ícono de dinero para la sección de tareas -->
+        <div id="menuItem1" class="menu-item active">Inicio</div>
+        <div id="menuItem2" class="menu-item">Referidos</div>
+        <div id="menuItem3" class="menu-item">Billetera</div>
+    </div>
+
+    <script>
+        // Inicialización de puntuación
+        let score = parseInt(localStorage.getItem('score')) || 0;
+        const tokensDisplay = document.getElementById('tokens');
+        const circle = document.getElementById('circle');
+
+        tokensDisplay.textContent = `Tokens: ${score}`;
+
+        circle.addEventListener('click', () => {
+            score += 2;
+            tokensDisplay.textContent = `Tokens: ${score}`;
+            localStorage.setItem('score', score);
+        });
+
+        // Datos de ejemplo de usuarios y puntuaciones
+        const users = [
+            { name: 'Ashly', tokens: 21890 },
+            { name: 'Start Free', tokens: 15670 },
+            { name: 'Zony', tokens: 3460 },
+            { name: 'Pinocho', tokens: 1960 },
+            { name: 'Cryto Pro', tokens: 1350 }
+        ];
+
+        // Función para llenar la tabla de clasificación
+        function fillLeaderboard() {
+            const leaderboardBody = document.getElementById('leaderboardBody');
+            leaderboardBody.innerHTML = '';
+
+            // Ordenar usuarios por tokens de mayor a menor
+            const sortedUsers = users.sort((a, b) => b.tokens - a.tokens).slice(0, 5);
+
+            sortedUsers.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.tokens}</td>
+                `;
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        fillLeaderboard();
+
+        // Manejo de navegación por el menú
+        const menuItem1 = document.getElementById('menuItem1');
+        const menuItem2 = document.getElementById('menuItem2');
+        const menuItem3 = document.getElementById('menuItem3');
+        const trophyIcon = document.getElementById('trophyIcon');
+        const moneyIcon = document.getElementById('moneyIcon');
+
+        const tokensSection = document.getElementById('tokensSection');
+        const referralSection = document.getElementById('referralSection');
+        const walletSection = document.getElementById('walletSection');
+        const leaderboardSection = document.getElementById('leaderboardSection');
+        const taskSection = document.getElementById('taskSection');
+
+        menuItem1.addEventListener('click', () => {
+            showSection('tokens');
+            setActiveMenuItem(menuItem1);
+        });
+
+        menuItem2.addEventListener('click', () => {
+            showSection('referral');
+            setActiveMenuItem(menuItem2);
+        });
+
+        menuItem3.addEventListener('click', () => {
+            showSection('wallet');
+            setActiveMenuItem(menuItem3);
+        });
+
+        trophyIcon.addEventListener('click', () => {
+            showSection('leaderboard');
+            setActiveMenuItem(trophyIcon);
+        });
+
+        moneyIcon.addEventListener('click', () => {
+            showSection('task');
+            setActiveMenuItem(moneyIcon);
+        });
+
+        function showSection(section) {
+            tokensSection.style.display = 'none';
+            referralSection.style.display = 'none';
+            walletSection.style.display = 'none';
+            leaderboardSection.style.display = 'none';
+            taskSection.style.display = 'none';
+
+            if (section === 'tokens') {
+                tokensSection.style.display = 'flex';
+            } else if (section === 'referral') {
+                referralSection.style.display = 'block';
+            } else if (section === 'wallet') {
+                walletSection.style.display = 'block';
+            } else if (section === 'leaderboard') {
+                leaderboardSection.style.display = 'block';
+            } else if (section === 'task') {
+                taskSection.style.display = 'block';
+            }
+        }
+
+        function setActiveMenuItem(activeItem) {
+            menuItem1.classList.remove('active');
+            menuItem2.classList.remove('active');
+            menuItem3.classList.remove('active');
+            trophyIcon.classList.remove('active');
+            moneyIcon.classList.remove('active');
+            activeItem.classList.add('active');
+        }
+
+        // Función para copiar el enlace de referencia
+        const referralLink = document.getElementById('referralLink');
+        const copyButton = document.getElementById('copyButton');
+
+        copyButton.addEventListener('click', () => {
+            referralLink.select();
+            document.execCommand('copy');
+            alert('Enlace copiado al portapapeles');
+            
+            // Simula la adición de tokens cuando alguien usa el enlace de referencia
+            score += 5;
+            tokensDisplay.textContent = `Tokens: ${score}`;
+            localStorage.setItem('score', score);
+        });
+
+        // Función para sumar tokens al completar una tarea
+        function sumarTokens(tokens) {
+            score += tokens;
+            tokensDisplay.textContent = `Tokens: ${score}`;
+            localStorage.setItem('score', score);
+        }
+    
+        // Función para abrir y cerrar el modal de ayuda
+        document.getElementById('helpIcon').addEventListener('click', function() {
+            document.getElementById('helpModal').style.display = 'flex';
+        });
+
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.getElementById('helpModal').style.display = 'none';
+        });
+
+        // Agregar funcionalidad de menú aquí si es necesario
+
+document.getElementById('circle').addEventListener('click', function() {
+    var mainImage = document.getElementById('mainImage');
+    var tempImage = document.getElementById('tempImage');
+
+    // Mostrar la imagen temporal
+    tempImage.style.display = 'block';
+
+    // Cambiar la imagen principal a la temporal por un breve momento
+    mainImage.style.opacity = '0';
+    setTimeout(function() {
+        mainImage.style.opacity = '1';
+        tempImage.style.display = 'none';
+    }, 400); // El cambio durará 400 milisegundos
+});
+
+    </script>
+
+</body>
+</html>
