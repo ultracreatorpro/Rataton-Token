@@ -339,7 +339,7 @@
             <h2 id="taskSectionTitle">💸 Gana más tokens haciendo tareas</h2>
             
             <!-- Contenedor de Tarea 1 -->
-             <div class="task-container" onclick="abrirTelegram();">
+             <div class="task-container" onclick="window.location.href='https://t.me/AndroidCrypto'; sumarTokens(250);">
                 <p>Únete a nuestro canal de Telegram</p>
                 <span>+250 Tokens</span>
             </div>
@@ -363,11 +363,6 @@
             </div>
         </div>
     </div>
- <script>
-function abrirTelegram() {
-    window.location.href = 'tg://resolve?domain=AndroidCrypto';
-    sumarTokens(250);
-}
 </script>
 
     <div id="menu">
@@ -496,7 +491,6 @@ function abrirTelegram() {
         copyButton.addEventListener('click', () => {
             referralLink.select();
             document.execCommand('copy');
-            alert('Enlace copiado al portapapeles');
             
             // Simula la adición de tokens cuando alguien usa el enlace de referencia
             score += 5;
