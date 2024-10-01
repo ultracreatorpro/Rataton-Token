@@ -277,9 +277,27 @@
             cursor: pointer;
             margin-top: 10px;
         }
+
+         #splashScreen {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: black; /* Fondo negro */
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         z-index: 9999; /* Para asegurarte de que esté encima de todo */
+         }
+
     </style>
 </head>
-<body>
+<body> 
+
+    <div id="splashScreen">
+    <img src="https://i.ibb.co/b7TgJwP/20240905-224139.png" alt="Splash Screen" style="width: 100%; height: auto;">
+</div>
 
     <!-- Nueva cabecera para "Aidrop Telegram" -->
     <div id="header">SÚPER RATATÓN</div>
@@ -365,7 +383,7 @@
                 <span>+100 Tokens</span>
             </div>
         </div>
-    </div>
+     </div>
 </script>
 
     <div id="menu">
@@ -444,8 +462,8 @@
         });
 
         menuItem3.addEventListener('click', () => {
-            showSection('wallet');
-            setActiveMenuItem(menuItem3);
+    window.location.href = 'https://ultracreatorpro.github.io/wallet/'; // Cambia esto por el enlace que desees
+
         });
 
         trophyIcon.addEventListener('click', () => {
@@ -522,16 +540,13 @@
 document.getElementById('circle').addEventListener('click', function() {
     var mainImage = document.getElementById('mainImage');
     var tempImage = document.getElementById('tempImage');
+}); 
 
-    // Mostrar la imagen temporal
-    tempImage.style.display = 'block';
-
-    // Cambiar la imagen principal a la temporal por un breve momento
-    mainImage.style.opacity = '0';
-    setTimeout(function() {
-        mainImage.style.opacity = '1';
-        tempImage.style.display = 'none';
-    }, 400); // El cambio durará 400 milisegundos
+   document.addEventListener('DOMContentLoaded', function() {
+    // Ocultar el splash screen después de 2 segundos
+    setTimeout(() => {
+        document.getElementById('splashScreen').style.display = 'none';
+    }, 2000); // 2000 milisegundos = 2 segundos
 });
 
     </script>
